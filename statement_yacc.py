@@ -42,8 +42,8 @@ def p_factor_expr(p):
 # custom functions starts from here
 
 def p_writeln_expression(p):
-    'statement : WRITELN LPAREN SINGLEQUOTE STRING SINGLEQUOTE RPAREN SEMICOLON statement'
-    print(p[4])
+    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
+    print(p[3][1:-1])
 
 def p_program_name(p):
     'statement : PROGRAM STRING SEMICOLON statement'

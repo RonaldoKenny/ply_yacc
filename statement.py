@@ -57,6 +57,10 @@ def t_ID(t):
      t.type = reserved.get(t.value,'STRING')    # Check for reserved words
      return t
 
+def t_STRING(t):
+    r'\'[a-zA-Z_][a-zA-Z_0-9,! ]*\''
+    return t
+
 tokens = [
     'NUMBER',
     'PLUS',
