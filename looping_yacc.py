@@ -1,7 +1,7 @@
 from ply import yacc
-import arithmetic
+import looping
 
-tokens = arithmetic.tokens
+tokens = looping.tokens
 variables = {}
 
 # custom functions starts from here
@@ -92,4 +92,4 @@ def p_error(p):
  
 # Build the parser
 parser = yacc.yacc()
-parser.parse(arithmetic.data)
+parser.parse(looping.data)

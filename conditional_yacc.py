@@ -1,7 +1,7 @@
 from ply import yacc
-import arithmetic
+import conditional
 
-tokens = arithmetic.tokens
+tokens = conditional.tokens
 variables = {}
 
 # custom functions starts from here
@@ -38,6 +38,9 @@ def p_assign(p):
     variables[p[1]] = p[3]
     print(variables)
 
+def p_compare(p):
+    'statement : IF LPAREN statement MORETHAN statement RPAREN THEN'
+    # How to compare?
 # ends here
 
 def p_expression_plus(p):
@@ -85,6 +88,7 @@ def p_factor_expr(p):
     'factor : LPAREN expression RPAREN'
     p[0] = p[2]
 
+
 # Error rule for syntax errors
 def p_error(p):
     print("Syntax error in input!")
@@ -92,4 +96,4 @@ def p_error(p):
  
 # Build the parser
 parser = yacc.yacc()
-parser.parse(arithmetic.data)
+parser.parse(conditional.data)
