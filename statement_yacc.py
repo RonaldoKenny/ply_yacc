@@ -41,10 +41,6 @@ def p_factor_expr(p):
 
 # custom functions starts from here
 
-def p_writeln_expression(p):
-    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
-    print(p[3][1:-1])
-
 def p_program_name(p):
     'statement : PROGRAM STRING SEMICOLON statement'
     print("Program Name: " + p[2])
@@ -52,6 +48,10 @@ def p_program_name(p):
 def p_begin(p):
     'statement : BEGIN statement'
     print("start here")
+
+def p_writeln_expression(p):
+    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
+    print(p[3][1:-1])
 
 def p_end(p):
     'statement : END FULLSTOP'
@@ -67,10 +67,4 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc()
 
-# while True:
-#     try:
-#         s = input('calc > ')
-#     except EOFError:
-#         break
-#     if not s: continue
-result = parser.parse(statement.data)
+parser.parse(statement.data)

@@ -16,11 +16,11 @@ t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
-t_SEMICOLON = r';'
+t_SEMICOLON = r'\;'
 t_SINGLEQUOTE = r'\''
 t_COMMA = r','
 t_EXCLAMATION = r'!'
-t_FULLSTOP = r'\.'
+t_FULLSTOP = r'.$'
 t_ASSIGN = r':='
 t_COLON = r'\:'
 
@@ -62,6 +62,10 @@ def t_ID(t):
      t.type = reserved.get(t.value,'STRING')    # Check for reserved words
      return t
 
+def t_STRING(t):
+    r'\'[a-zA-Z_][a-zA-Z_0-9,! ]*\''
+    return t
+
 tokens = [
     'NUMBER',
     'PLUS',
@@ -90,9 +94,9 @@ data = data.lower()
 
 lexer.input(data)
 
-# Tokenize
-while True:
-    tok = lexer.token()
-    if not tok: 
-        break      # No more input
-    print(tok)
+# # Tokenize
+# while True:
+#     tok = lexer.token()
+#     if not tok: 
+#         break      # No more input
+#     print(tok)

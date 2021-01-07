@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'BEGIN COMMA DIVIDE ELSE END EXCLAMATION FULLSTOP IF LPAREN MINUS NUMBER PLUS PROGRAM RPAREN SEMICOLON SINGLEQUOTE STRING THEN TIMES WHILE WRITELNexpression : expression PLUS termexpression : expression MINUS termexpression : termexpression : statementterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : NUMBERfactor : LPAREN expression RPARENstatement : WRITELN LPAREN STRING RPAREN SEMICOLON statementstatement : PROGRAM STRING SEMICOLON statementstatement : BEGIN statementstatement : END FULLSTOP'
+_lr_signature = 'BEGIN COMMA DIVIDE ELSE END EXCLAMATION FULLSTOP IF LPAREN MINUS NUMBER PLUS PROGRAM RPAREN SEMICOLON SINGLEQUOTE STRING THEN TIMES WHILE WRITELNexpression : expression PLUS termexpression : expression MINUS termexpression : termexpression : statementterm : term TIMES factorterm : term DIVIDE factorterm : factorfactor : NUMBERfactor : LPAREN expression RPARENstatement : PROGRAM STRING SEMICOLON statementstatement : BEGIN statementstatement : WRITELN LPAREN STRING RPAREN SEMICOLON statementstatement : END FULLSTOP'
     
-_lr_action_items = {'WRITELN':([0,6,8,26,29,],[5,5,5,5,5,]),'PROGRAM':([0,6,8,26,29,],[7,7,7,7,7,]),'BEGIN':([0,6,8,26,29,],[8,8,8,8,8,]),'END':([0,6,8,26,29,],[9,9,9,9,9,]),'NUMBER':([0,6,11,12,13,14,],[10,10,10,10,10,10,]),'LPAREN':([0,5,6,11,12,13,14,],[6,15,6,6,6,6,6,]),'$end':([1,2,3,4,10,18,19,20,21,22,23,25,28,30,],[0,-3,-4,-7,-8,-12,-13,-1,-2,-5,-6,-9,-11,-10,]),'PLUS':([1,2,3,4,10,16,18,19,20,21,22,23,25,28,30,],[11,-3,-4,-7,-8,11,-12,-13,-1,-2,-5,-6,-9,-11,-10,]),'MINUS':([1,2,3,4,10,16,18,19,20,21,22,23,25,28,30,],[12,-3,-4,-7,-8,12,-12,-13,-1,-2,-5,-6,-9,-11,-10,]),'RPAREN':([2,3,4,10,16,18,19,20,21,22,23,24,25,28,30,],[-3,-4,-7,-8,25,-12,-13,-1,-2,-5,-6,27,-9,-11,-10,]),'TIMES':([2,4,10,20,21,22,23,25,],[13,-7,-8,13,13,-5,-6,-9,]),'DIVIDE':([2,4,10,20,21,22,23,25,],[14,-7,-8,14,14,-5,-6,-9,]),'STRING':([7,15,],[17,24,]),'FULLSTOP':([9,],[19,]),'SEMICOLON':([17,27,],[26,29,]),}
+_lr_action_items = {'PROGRAM':([0,6,8,24,29,],[5,5,5,5,5,]),'BEGIN':([0,6,8,24,29,],[6,6,6,6,6,]),'WRITELN':([0,6,8,24,29,],[7,7,7,7,7,]),'END':([0,6,8,24,29,],[9,9,9,9,9,]),'NUMBER':([0,8,11,12,13,14,],[10,10,10,10,10,10,]),'LPAREN':([0,7,8,11,12,13,14,],[8,17,8,8,8,8,8,]),'$end':([1,2,3,4,10,16,19,20,21,22,23,26,27,30,],[0,-3,-4,-7,-8,-11,-13,-1,-2,-5,-6,-9,-10,-12,]),'PLUS':([1,2,3,4,10,16,18,19,20,21,22,23,26,27,30,],[11,-3,-4,-7,-8,-11,11,-13,-1,-2,-5,-6,-9,-10,-12,]),'MINUS':([1,2,3,4,10,16,18,19,20,21,22,23,26,27,30,],[12,-3,-4,-7,-8,-11,12,-13,-1,-2,-5,-6,-9,-10,-12,]),'RPAREN':([2,3,4,10,16,18,19,20,21,22,23,25,26,27,30,],[-3,-4,-7,-8,-11,26,-13,-1,-2,-5,-6,28,-9,-10,-12,]),'TIMES':([2,4,10,20,21,22,23,26,],[13,-7,-8,13,13,-5,-6,-9,]),'DIVIDE':([2,4,10,20,21,22,23,26,],[14,-7,-8,14,14,-5,-6,-9,]),'STRING':([5,17,],[15,25,]),'FULLSTOP':([9,],[19,]),'SEMICOLON':([15,28,],[24,29,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'expression':([0,6,],[1,16,]),'term':([0,6,11,12,],[2,2,20,21,]),'statement':([0,6,8,26,29,],[3,3,18,28,30,]),'factor':([0,6,11,12,13,14,],[4,4,4,4,22,23,]),}
+_lr_goto_items = {'expression':([0,8,],[1,18,]),'term':([0,8,11,12,],[2,2,20,21,]),'statement':([0,6,8,24,29,],[3,16,3,27,30,]),'factor':([0,8,11,12,13,14,],[4,4,4,4,22,23,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -36,8 +36,8 @@ _lr_productions = [
   ('term -> factor','term',1,'p_term_factor','statement_yacc.py',31),
   ('factor -> NUMBER','factor',1,'p_factor_num','statement_yacc.py',35),
   ('factor -> LPAREN expression RPAREN','factor',3,'p_factor_expr','statement_yacc.py',39),
-  ('statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement','statement',6,'p_writeln_expression','statement_yacc.py',45),
-  ('statement -> PROGRAM STRING SEMICOLON statement','statement',4,'p_program_name','statement_yacc.py',49),
-  ('statement -> BEGIN statement','statement',2,'p_begin','statement_yacc.py',53),
+  ('statement -> PROGRAM STRING SEMICOLON statement','statement',4,'p_program_name','statement_yacc.py',45),
+  ('statement -> BEGIN statement','statement',2,'p_begin','statement_yacc.py',49),
+  ('statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement','statement',6,'p_writeln_expression','statement_yacc.py',53),
   ('statement -> END FULLSTOP','statement',2,'p_end','statement_yacc.py',57),
 ]
