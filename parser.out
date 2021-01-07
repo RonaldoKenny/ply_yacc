@@ -2,438 +2,862 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    COMMA
     ELSE
+    EQUAL
     EXCLAMATION
-    IF
+    LESSTHAN
     SINGLEQUOTE
-    THEN
     WHILE
 
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> expression PLUS term
-Rule 2     expression -> expression MINUS term
-Rule 3     expression -> term
-Rule 4     expression -> statement
-Rule 5     term -> term TIMES factor
-Rule 6     term -> term DIVIDE factor
-Rule 7     term -> factor
-Rule 8     factor -> NUMBER
-Rule 9     factor -> LPAREN expression RPAREN
-Rule 10    statement -> PROGRAM STRING SEMICOLON statement
-Rule 11    statement -> BEGIN statement
-Rule 12    statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement
-Rule 13    statement -> END FULLSTOP
+Rule 0     S' -> statement
+Rule 1     statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement
+Rule 2     statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+Rule 3     statement -> PROGRAM STRING SEMICOLON statement
+Rule 4     statement -> BEGIN statement
+Rule 5     statement -> END FULLSTOP
+Rule 6     statement -> VAR STRING COLON INTEGER SEMICOLON statement
+Rule 7     statement -> VAR STRING COLON REAL SEMICOLON statement
+Rule 8     statement -> STRING ASSIGN expression SEMICOLON statement
+Rule 9     statement -> IF LPAREN statement MORETHAN statement RPAREN THEN
+Rule 10    expression -> expression PLUS term
+Rule 11    expression -> expression MINUS term
+Rule 12    expression -> term
+Rule 13    expression -> statement
+Rule 14    term -> term TIMES factor
+Rule 15    term -> term DIVIDE factor
+Rule 16    term -> factor
+Rule 17    factor -> NUMBER
+Rule 18    factor -> STRING
+Rule 19    factor -> LPAREN expression RPAREN
 
 Terminals, with rules where they appear
 
-BEGIN                : 11
-COMMA                : 
-DIVIDE               : 6
+ASSIGN               : 8
+BEGIN                : 4
+COLON                : 6 7
+COMMA                : 2
+DIVIDE               : 15
 ELSE                 : 
-END                  : 13
+END                  : 5
+EQUAL                : 
 EXCLAMATION          : 
-FULLSTOP             : 13
-IF                   : 
-LPAREN               : 9 12
-MINUS                : 2
-NUMBER               : 8
-PLUS                 : 1
-PROGRAM              : 10
-RPAREN               : 9 12
-SEMICOLON            : 10 12
+FULLSTOP             : 5
+IF                   : 9
+INTEGER              : 6
+LESSTHAN             : 
+LPAREN               : 1 2 9 19
+MINUS                : 11
+MORETHAN             : 9
+NUMBER               : 17
+PLUS                 : 10
+PROGRAM              : 3
+REAL                 : 7
+RPAREN               : 1 2 9 19
+SEMICOLON            : 1 2 3 6 7 8
 SINGLEQUOTE          : 
-STRING               : 10 12
-THEN                 : 
-TIMES                : 5
+STRING               : 1 2 2 3 6 7 8 18
+THEN                 : 9
+TIMES                : 14
+VAR                  : 6 7
 WHILE                : 
-WRITELN              : 12
+WRITELN              : 1 2
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 9 0
-factor               : 5 6 7
-statement            : 4 10 11 12
-term                 : 1 2 3 5 6
+expression           : 8 10 11 19
+factor               : 14 15 16
+statement            : 1 2 3 4 6 7 8 9 9 13 0
+term                 : 10 11 12 14 15
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . expression PLUS term
-    (2) expression -> . expression MINUS term
-    (3) expression -> . term
-    (4) expression -> . statement
-    (5) term -> . term TIMES factor
-    (6) term -> . term DIVIDE factor
-    (7) term -> . factor
-    (10) statement -> . PROGRAM STRING SEMICOLON statement
-    (11) statement -> . BEGIN statement
-    (12) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
-    (13) statement -> . END FULLSTOP
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
+    (0) S' -> . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
 
-    PROGRAM         shift and go to state 5
-    BEGIN           shift and go to state 6
-    WRITELN         shift and go to state 7
-    END             shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
 
-    expression                     shift and go to state 1
-    term                           shift and go to state 2
-    statement                      shift and go to state 3
-    factor                         shift and go to state 4
+    statement                      shift and go to state 1
 
 state 1
 
-    (0) S' -> expression .
-    (1) expression -> expression . PLUS term
-    (2) expression -> expression . MINUS term
+    (0) S' -> statement .
 
-    PLUS            shift and go to state 11
-    MINUS           shift and go to state 12
 
 
 state 2
 
-    (3) expression -> term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
+    (1) statement -> WRITELN . LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> WRITELN . LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
 
-    PLUS            reduce using rule 3 (expression -> term .)
-    MINUS           reduce using rule 3 (expression -> term .)
-    $end            reduce using rule 3 (expression -> term .)
-    RPAREN          reduce using rule 3 (expression -> term .)
-    TIMES           shift and go to state 13
-    DIVIDE          shift and go to state 14
+    LPAREN          shift and go to state 9
 
 
 state 3
 
-    (4) expression -> statement .
+    (8) statement -> STRING . ASSIGN expression SEMICOLON statement
 
-    PLUS            reduce using rule 4 (expression -> statement .)
-    MINUS           reduce using rule 4 (expression -> statement .)
-    $end            reduce using rule 4 (expression -> statement .)
-    RPAREN          reduce using rule 4 (expression -> statement .)
+    ASSIGN          shift and go to state 10
 
 
 state 4
 
-    (7) term -> factor .
+    (3) statement -> PROGRAM . STRING SEMICOLON statement
 
-    TIMES           reduce using rule 7 (term -> factor .)
-    DIVIDE          reduce using rule 7 (term -> factor .)
-    PLUS            reduce using rule 7 (term -> factor .)
-    MINUS           reduce using rule 7 (term -> factor .)
-    $end            reduce using rule 7 (term -> factor .)
-    RPAREN          reduce using rule 7 (term -> factor .)
+    STRING          shift and go to state 11
 
 
 state 5
 
-    (10) statement -> PROGRAM . STRING SEMICOLON statement
+    (4) statement -> BEGIN . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
 
-    STRING          shift and go to state 15
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
 
+    statement                      shift and go to state 12
 
 state 6
 
-    (11) statement -> BEGIN . statement
-    (10) statement -> . PROGRAM STRING SEMICOLON statement
-    (11) statement -> . BEGIN statement
-    (12) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
-    (13) statement -> . END FULLSTOP
+    (5) statement -> END . FULLSTOP
 
-    PROGRAM         shift and go to state 5
-    BEGIN           shift and go to state 6
-    WRITELN         shift and go to state 7
-    END             shift and go to state 9
+    FULLSTOP        shift and go to state 13
 
-    statement                      shift and go to state 16
 
 state 7
 
-    (12) statement -> WRITELN . LPAREN STRING RPAREN SEMICOLON statement
+    (6) statement -> VAR . STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> VAR . STRING COLON REAL SEMICOLON statement
 
-    LPAREN          shift and go to state 17
+    STRING          shift and go to state 14
 
 
 state 8
 
-    (9) factor -> LPAREN . expression RPAREN
-    (1) expression -> . expression PLUS term
-    (2) expression -> . expression MINUS term
-    (3) expression -> . term
-    (4) expression -> . statement
-    (5) term -> . term TIMES factor
-    (6) term -> . term DIVIDE factor
-    (7) term -> . factor
-    (10) statement -> . PROGRAM STRING SEMICOLON statement
-    (11) statement -> . BEGIN statement
-    (12) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
-    (13) statement -> . END FULLSTOP
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
+    (9) statement -> IF . LPAREN statement MORETHAN statement RPAREN THEN
 
-    PROGRAM         shift and go to state 5
-    BEGIN           shift and go to state 6
-    WRITELN         shift and go to state 7
-    END             shift and go to state 9
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
+    LPAREN          shift and go to state 15
 
-    expression                     shift and go to state 18
-    term                           shift and go to state 2
-    statement                      shift and go to state 3
-    factor                         shift and go to state 4
 
 state 9
 
-    (13) statement -> END . FULLSTOP
+    (1) statement -> WRITELN LPAREN . STRING RPAREN SEMICOLON statement
+    (2) statement -> WRITELN LPAREN . STRING COMMA STRING RPAREN SEMICOLON statement
 
-    FULLSTOP        shift and go to state 19
+    STRING          shift and go to state 16
 
 
 state 10
 
-    (8) factor -> NUMBER .
+    (8) statement -> STRING ASSIGN . expression SEMICOLON statement
+    (10) expression -> . expression PLUS term
+    (11) expression -> . expression MINUS term
+    (12) expression -> . term
+    (13) expression -> . statement
+    (14) term -> . term TIMES factor
+    (15) term -> . term DIVIDE factor
+    (16) term -> . factor
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 8 (factor -> NUMBER .)
-    DIVIDE          reduce using rule 8 (factor -> NUMBER .)
-    PLUS            reduce using rule 8 (factor -> NUMBER .)
-    MINUS           reduce using rule 8 (factor -> NUMBER .)
-    $end            reduce using rule 8 (factor -> NUMBER .)
-    RPAREN          reduce using rule 8 (factor -> NUMBER .)
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 17
+    IF              shift and go to state 8
+    NUMBER          shift and go to state 23
+    LPAREN          shift and go to state 22
 
+    expression                     shift and go to state 18
+    statement                      shift and go to state 19
+    term                           shift and go to state 20
+    factor                         shift and go to state 21
 
 state 11
 
-    (1) expression -> expression PLUS . term
-    (5) term -> . term TIMES factor
-    (6) term -> . term DIVIDE factor
-    (7) term -> . factor
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
-
-    term                           shift and go to state 20
-    factor                         shift and go to state 4
-
-state 12
-
-    (2) expression -> expression MINUS . term
-    (5) term -> . term TIMES factor
-    (6) term -> . term DIVIDE factor
-    (7) term -> . factor
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
-
-    term                           shift and go to state 21
-    factor                         shift and go to state 4
-
-state 13
-
-    (5) term -> term TIMES . factor
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
-
-    factor                         shift and go to state 22
-
-state 14
-
-    (6) term -> term DIVIDE . factor
-    (8) factor -> . NUMBER
-    (9) factor -> . LPAREN expression RPAREN
-
-    NUMBER          shift and go to state 10
-    LPAREN          shift and go to state 8
-
-    factor                         shift and go to state 23
-
-state 15
-
-    (10) statement -> PROGRAM STRING . SEMICOLON statement
+    (3) statement -> PROGRAM STRING . SEMICOLON statement
 
     SEMICOLON       shift and go to state 24
 
 
+state 12
+
+    (4) statement -> BEGIN statement .
+
+    $end            reduce using rule 4 (statement -> BEGIN statement .)
+    SEMICOLON       reduce using rule 4 (statement -> BEGIN statement .)
+    PLUS            reduce using rule 4 (statement -> BEGIN statement .)
+    MINUS           reduce using rule 4 (statement -> BEGIN statement .)
+    MORETHAN        reduce using rule 4 (statement -> BEGIN statement .)
+    RPAREN          reduce using rule 4 (statement -> BEGIN statement .)
+
+
+state 13
+
+    (5) statement -> END FULLSTOP .
+
+    $end            reduce using rule 5 (statement -> END FULLSTOP .)
+    SEMICOLON       reduce using rule 5 (statement -> END FULLSTOP .)
+    PLUS            reduce using rule 5 (statement -> END FULLSTOP .)
+    MINUS           reduce using rule 5 (statement -> END FULLSTOP .)
+    MORETHAN        reduce using rule 5 (statement -> END FULLSTOP .)
+    RPAREN          reduce using rule 5 (statement -> END FULLSTOP .)
+
+
+state 14
+
+    (6) statement -> VAR STRING . COLON INTEGER SEMICOLON statement
+    (7) statement -> VAR STRING . COLON REAL SEMICOLON statement
+
+    COLON           shift and go to state 25
+
+
+state 15
+
+    (9) statement -> IF LPAREN . statement MORETHAN statement RPAREN THEN
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 26
+
 state 16
 
-    (11) statement -> BEGIN statement .
+    (1) statement -> WRITELN LPAREN STRING . RPAREN SEMICOLON statement
+    (2) statement -> WRITELN LPAREN STRING . COMMA STRING RPAREN SEMICOLON statement
 
-    PLUS            reduce using rule 11 (statement -> BEGIN statement .)
-    MINUS           reduce using rule 11 (statement -> BEGIN statement .)
-    $end            reduce using rule 11 (statement -> BEGIN statement .)
-    RPAREN          reduce using rule 11 (statement -> BEGIN statement .)
+    RPAREN          shift and go to state 27
+    COMMA           shift and go to state 28
 
 
 state 17
 
-    (12) statement -> WRITELN LPAREN . STRING RPAREN SEMICOLON statement
+    (8) statement -> STRING . ASSIGN expression SEMICOLON statement
+    (18) factor -> STRING .
 
-    STRING          shift and go to state 25
+    ASSIGN          shift and go to state 10
+    TIMES           reduce using rule 18 (factor -> STRING .)
+    DIVIDE          reduce using rule 18 (factor -> STRING .)
+    SEMICOLON       reduce using rule 18 (factor -> STRING .)
+    PLUS            reduce using rule 18 (factor -> STRING .)
+    MINUS           reduce using rule 18 (factor -> STRING .)
+    RPAREN          reduce using rule 18 (factor -> STRING .)
 
 
 state 18
 
-    (9) factor -> LPAREN expression . RPAREN
-    (1) expression -> expression . PLUS term
-    (2) expression -> expression . MINUS term
+    (8) statement -> STRING ASSIGN expression . SEMICOLON statement
+    (10) expression -> expression . PLUS term
+    (11) expression -> expression . MINUS term
 
-    RPAREN          shift and go to state 26
-    PLUS            shift and go to state 11
-    MINUS           shift and go to state 12
+    SEMICOLON       shift and go to state 29
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
 
 
 state 19
 
-    (13) statement -> END FULLSTOP .
+    (13) expression -> statement .
 
-    PLUS            reduce using rule 13 (statement -> END FULLSTOP .)
-    MINUS           reduce using rule 13 (statement -> END FULLSTOP .)
-    $end            reduce using rule 13 (statement -> END FULLSTOP .)
-    RPAREN          reduce using rule 13 (statement -> END FULLSTOP .)
+    SEMICOLON       reduce using rule 13 (expression -> statement .)
+    PLUS            reduce using rule 13 (expression -> statement .)
+    MINUS           reduce using rule 13 (expression -> statement .)
+    RPAREN          reduce using rule 13 (expression -> statement .)
 
 
 state 20
 
-    (1) expression -> expression PLUS term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
+    (12) expression -> term .
+    (14) term -> term . TIMES factor
+    (15) term -> term . DIVIDE factor
 
-    PLUS            reduce using rule 1 (expression -> expression PLUS term .)
-    MINUS           reduce using rule 1 (expression -> expression PLUS term .)
-    $end            reduce using rule 1 (expression -> expression PLUS term .)
-    RPAREN          reduce using rule 1 (expression -> expression PLUS term .)
-    TIMES           shift and go to state 13
-    DIVIDE          shift and go to state 14
+    SEMICOLON       reduce using rule 12 (expression -> term .)
+    PLUS            reduce using rule 12 (expression -> term .)
+    MINUS           reduce using rule 12 (expression -> term .)
+    RPAREN          reduce using rule 12 (expression -> term .)
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
 
 
 state 21
 
-    (2) expression -> expression MINUS term .
-    (5) term -> term . TIMES factor
-    (6) term -> term . DIVIDE factor
+    (16) term -> factor .
 
-    PLUS            reduce using rule 2 (expression -> expression MINUS term .)
-    MINUS           reduce using rule 2 (expression -> expression MINUS term .)
-    $end            reduce using rule 2 (expression -> expression MINUS term .)
-    RPAREN          reduce using rule 2 (expression -> expression MINUS term .)
-    TIMES           shift and go to state 13
-    DIVIDE          shift and go to state 14
+    TIMES           reduce using rule 16 (term -> factor .)
+    DIVIDE          reduce using rule 16 (term -> factor .)
+    SEMICOLON       reduce using rule 16 (term -> factor .)
+    PLUS            reduce using rule 16 (term -> factor .)
+    MINUS           reduce using rule 16 (term -> factor .)
+    RPAREN          reduce using rule 16 (term -> factor .)
 
 
 state 22
 
-    (5) term -> term TIMES factor .
+    (19) factor -> LPAREN . expression RPAREN
+    (10) expression -> . expression PLUS term
+    (11) expression -> . expression MINUS term
+    (12) expression -> . term
+    (13) expression -> . statement
+    (14) term -> . term TIMES factor
+    (15) term -> . term DIVIDE factor
+    (16) term -> . factor
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
 
-    TIMES           reduce using rule 5 (term -> term TIMES factor .)
-    DIVIDE          reduce using rule 5 (term -> term TIMES factor .)
-    PLUS            reduce using rule 5 (term -> term TIMES factor .)
-    MINUS           reduce using rule 5 (term -> term TIMES factor .)
-    $end            reduce using rule 5 (term -> term TIMES factor .)
-    RPAREN          reduce using rule 5 (term -> term TIMES factor .)
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 17
+    IF              shift and go to state 8
+    NUMBER          shift and go to state 23
+    LPAREN          shift and go to state 22
 
+    expression                     shift and go to state 34
+    term                           shift and go to state 20
+    statement                      shift and go to state 19
+    factor                         shift and go to state 21
 
 state 23
 
-    (6) term -> term DIVIDE factor .
+    (17) factor -> NUMBER .
 
-    TIMES           reduce using rule 6 (term -> term DIVIDE factor .)
-    DIVIDE          reduce using rule 6 (term -> term DIVIDE factor .)
-    PLUS            reduce using rule 6 (term -> term DIVIDE factor .)
-    MINUS           reduce using rule 6 (term -> term DIVIDE factor .)
-    $end            reduce using rule 6 (term -> term DIVIDE factor .)
-    RPAREN          reduce using rule 6 (term -> term DIVIDE factor .)
+    TIMES           reduce using rule 17 (factor -> NUMBER .)
+    DIVIDE          reduce using rule 17 (factor -> NUMBER .)
+    SEMICOLON       reduce using rule 17 (factor -> NUMBER .)
+    PLUS            reduce using rule 17 (factor -> NUMBER .)
+    MINUS           reduce using rule 17 (factor -> NUMBER .)
+    RPAREN          reduce using rule 17 (factor -> NUMBER .)
 
 
 state 24
 
-    (10) statement -> PROGRAM STRING SEMICOLON . statement
-    (10) statement -> . PROGRAM STRING SEMICOLON statement
-    (11) statement -> . BEGIN statement
-    (12) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
-    (13) statement -> . END FULLSTOP
+    (3) statement -> PROGRAM STRING SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
 
-    PROGRAM         shift and go to state 5
-    BEGIN           shift and go to state 6
-    WRITELN         shift and go to state 7
-    END             shift and go to state 9
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
 
-    statement                      shift and go to state 27
+    statement                      shift and go to state 35
 
 state 25
 
-    (12) statement -> WRITELN LPAREN STRING . RPAREN SEMICOLON statement
+    (6) statement -> VAR STRING COLON . INTEGER SEMICOLON statement
+    (7) statement -> VAR STRING COLON . REAL SEMICOLON statement
 
-    RPAREN          shift and go to state 28
+    INTEGER         shift and go to state 36
+    REAL            shift and go to state 37
 
 
 state 26
 
-    (9) factor -> LPAREN expression RPAREN .
+    (9) statement -> IF LPAREN statement . MORETHAN statement RPAREN THEN
 
-    TIMES           reduce using rule 9 (factor -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 9 (factor -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 9 (factor -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 9 (factor -> LPAREN expression RPAREN .)
-    $end            reduce using rule 9 (factor -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 9 (factor -> LPAREN expression RPAREN .)
+    MORETHAN        shift and go to state 38
 
 
 state 27
 
-    (10) statement -> PROGRAM STRING SEMICOLON statement .
+    (1) statement -> WRITELN LPAREN STRING RPAREN . SEMICOLON statement
 
-    PLUS            reduce using rule 10 (statement -> PROGRAM STRING SEMICOLON statement .)
-    MINUS           reduce using rule 10 (statement -> PROGRAM STRING SEMICOLON statement .)
-    $end            reduce using rule 10 (statement -> PROGRAM STRING SEMICOLON statement .)
-    RPAREN          reduce using rule 10 (statement -> PROGRAM STRING SEMICOLON statement .)
+    SEMICOLON       shift and go to state 39
 
 
 state 28
 
-    (12) statement -> WRITELN LPAREN STRING RPAREN . SEMICOLON statement
+    (2) statement -> WRITELN LPAREN STRING COMMA . STRING RPAREN SEMICOLON statement
 
-    SEMICOLON       shift and go to state 29
+    STRING          shift and go to state 40
 
 
 state 29
 
-    (12) statement -> WRITELN LPAREN STRING RPAREN SEMICOLON . statement
-    (10) statement -> . PROGRAM STRING SEMICOLON statement
-    (11) statement -> . BEGIN statement
-    (12) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
-    (13) statement -> . END FULLSTOP
+    (8) statement -> STRING ASSIGN expression SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
 
-    PROGRAM         shift and go to state 5
-    BEGIN           shift and go to state 6
-    WRITELN         shift and go to state 7
-    END             shift and go to state 9
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
 
-    statement                      shift and go to state 30
+    statement                      shift and go to state 41
 
 state 30
 
-    (12) statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .
+    (10) expression -> expression PLUS . term
+    (14) term -> . term TIMES factor
+    (15) term -> . term DIVIDE factor
+    (16) term -> . factor
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
 
-    PLUS            reduce using rule 12 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
-    MINUS           reduce using rule 12 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
-    $end            reduce using rule 12 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
-    RPAREN          reduce using rule 12 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 43
+    LPAREN          shift and go to state 22
+
+    term                           shift and go to state 42
+    factor                         shift and go to state 21
+
+state 31
+
+    (11) expression -> expression MINUS . term
+    (14) term -> . term TIMES factor
+    (15) term -> . term DIVIDE factor
+    (16) term -> . factor
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
+
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 43
+    LPAREN          shift and go to state 22
+
+    term                           shift and go to state 44
+    factor                         shift and go to state 21
+
+state 32
+
+    (14) term -> term TIMES . factor
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
+
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 43
+    LPAREN          shift and go to state 22
+
+    factor                         shift and go to state 45
+
+state 33
+
+    (15) term -> term DIVIDE . factor
+    (17) factor -> . NUMBER
+    (18) factor -> . STRING
+    (19) factor -> . LPAREN expression RPAREN
+
+    NUMBER          shift and go to state 23
+    STRING          shift and go to state 43
+    LPAREN          shift and go to state 22
+
+    factor                         shift and go to state 46
+
+state 34
+
+    (19) factor -> LPAREN expression . RPAREN
+    (10) expression -> expression . PLUS term
+    (11) expression -> expression . MINUS term
+
+    RPAREN          shift and go to state 47
+    PLUS            shift and go to state 30
+    MINUS           shift and go to state 31
+
+
+state 35
+
+    (3) statement -> PROGRAM STRING SEMICOLON statement .
+
+    $end            reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+    SEMICOLON       reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+    PLUS            reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+    MINUS           reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+    MORETHAN        reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+    RPAREN          reduce using rule 3 (statement -> PROGRAM STRING SEMICOLON statement .)
+
+
+state 36
+
+    (6) statement -> VAR STRING COLON INTEGER . SEMICOLON statement
+
+    SEMICOLON       shift and go to state 48
+
+
+state 37
+
+    (7) statement -> VAR STRING COLON REAL . SEMICOLON statement
+
+    SEMICOLON       shift and go to state 49
+
+
+state 38
+
+    (9) statement -> IF LPAREN statement MORETHAN . statement RPAREN THEN
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 50
+
+state 39
+
+    (1) statement -> WRITELN LPAREN STRING RPAREN SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 51
+
+state 40
+
+    (2) statement -> WRITELN LPAREN STRING COMMA STRING . RPAREN SEMICOLON statement
+
+    RPAREN          shift and go to state 52
+
+
+state 41
+
+    (8) statement -> STRING ASSIGN expression SEMICOLON statement .
+
+    $end            reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+    SEMICOLON       reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+    PLUS            reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+    MINUS           reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+    MORETHAN        reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+    RPAREN          reduce using rule 8 (statement -> STRING ASSIGN expression SEMICOLON statement .)
+
+
+state 42
+
+    (10) expression -> expression PLUS term .
+    (14) term -> term . TIMES factor
+    (15) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 10 (expression -> expression PLUS term .)
+    PLUS            reduce using rule 10 (expression -> expression PLUS term .)
+    MINUS           reduce using rule 10 (expression -> expression PLUS term .)
+    RPAREN          reduce using rule 10 (expression -> expression PLUS term .)
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+
+state 43
+
+    (18) factor -> STRING .
+
+    TIMES           reduce using rule 18 (factor -> STRING .)
+    DIVIDE          reduce using rule 18 (factor -> STRING .)
+    SEMICOLON       reduce using rule 18 (factor -> STRING .)
+    PLUS            reduce using rule 18 (factor -> STRING .)
+    MINUS           reduce using rule 18 (factor -> STRING .)
+    RPAREN          reduce using rule 18 (factor -> STRING .)
+
+
+state 44
+
+    (11) expression -> expression MINUS term .
+    (14) term -> term . TIMES factor
+    (15) term -> term . DIVIDE factor
+
+    SEMICOLON       reduce using rule 11 (expression -> expression MINUS term .)
+    PLUS            reduce using rule 11 (expression -> expression MINUS term .)
+    MINUS           reduce using rule 11 (expression -> expression MINUS term .)
+    RPAREN          reduce using rule 11 (expression -> expression MINUS term .)
+    TIMES           shift and go to state 32
+    DIVIDE          shift and go to state 33
+
+
+state 45
+
+    (14) term -> term TIMES factor .
+
+    TIMES           reduce using rule 14 (term -> term TIMES factor .)
+    DIVIDE          reduce using rule 14 (term -> term TIMES factor .)
+    SEMICOLON       reduce using rule 14 (term -> term TIMES factor .)
+    PLUS            reduce using rule 14 (term -> term TIMES factor .)
+    MINUS           reduce using rule 14 (term -> term TIMES factor .)
+    RPAREN          reduce using rule 14 (term -> term TIMES factor .)
+
+
+state 46
+
+    (15) term -> term DIVIDE factor .
+
+    TIMES           reduce using rule 15 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 15 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 15 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 15 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 15 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 15 (term -> term DIVIDE factor .)
+
+
+state 47
+
+    (19) factor -> LPAREN expression RPAREN .
+
+    TIMES           reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 19 (factor -> LPAREN expression RPAREN .)
+
+
+state 48
+
+    (6) statement -> VAR STRING COLON INTEGER SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 53
+
+state 49
+
+    (7) statement -> VAR STRING COLON REAL SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 54
+
+state 50
+
+    (9) statement -> IF LPAREN statement MORETHAN statement . RPAREN THEN
+
+    RPAREN          shift and go to state 55
+
+
+state 51
+
+    (1) statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .
+
+    $end            reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    SEMICOLON       reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    PLUS            reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    MINUS           reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    MORETHAN        reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+    RPAREN          reduce using rule 1 (statement -> WRITELN LPAREN STRING RPAREN SEMICOLON statement .)
+
+
+state 52
+
+    (2) statement -> WRITELN LPAREN STRING COMMA STRING RPAREN . SEMICOLON statement
+
+    SEMICOLON       shift and go to state 56
+
+
+state 53
+
+    (6) statement -> VAR STRING COLON INTEGER SEMICOLON statement .
+
+    $end            reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+    SEMICOLON       reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+    PLUS            reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+    MINUS           reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+    MORETHAN        reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+    RPAREN          reduce using rule 6 (statement -> VAR STRING COLON INTEGER SEMICOLON statement .)
+
+
+state 54
+
+    (7) statement -> VAR STRING COLON REAL SEMICOLON statement .
+
+    $end            reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+    SEMICOLON       reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+    PLUS            reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+    MINUS           reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+    MORETHAN        reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+    RPAREN          reduce using rule 7 (statement -> VAR STRING COLON REAL SEMICOLON statement .)
+
+
+state 55
+
+    (9) statement -> IF LPAREN statement MORETHAN statement RPAREN . THEN
+
+    THEN            shift and go to state 57
+
+
+state 56
+
+    (2) statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON . statement
+    (1) statement -> . WRITELN LPAREN STRING RPAREN SEMICOLON statement
+    (2) statement -> . WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement
+    (3) statement -> . PROGRAM STRING SEMICOLON statement
+    (4) statement -> . BEGIN statement
+    (5) statement -> . END FULLSTOP
+    (6) statement -> . VAR STRING COLON INTEGER SEMICOLON statement
+    (7) statement -> . VAR STRING COLON REAL SEMICOLON statement
+    (8) statement -> . STRING ASSIGN expression SEMICOLON statement
+    (9) statement -> . IF LPAREN statement MORETHAN statement RPAREN THEN
+
+    WRITELN         shift and go to state 2
+    PROGRAM         shift and go to state 4
+    BEGIN           shift and go to state 5
+    END             shift and go to state 6
+    VAR             shift and go to state 7
+    STRING          shift and go to state 3
+    IF              shift and go to state 8
+
+    statement                      shift and go to state 58
+
+state 57
+
+    (9) statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .
+
+    $end            reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+    SEMICOLON       reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+    PLUS            reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+    MINUS           reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+    MORETHAN        reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+    RPAREN          reduce using rule 9 (statement -> IF LPAREN statement MORETHAN statement RPAREN THEN .)
+
+
+state 58
+
+    (2) statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .
+
+    $end            reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
+    SEMICOLON       reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
+    PLUS            reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
+    MINUS           reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
+    MORETHAN        reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
+    RPAREN          reduce using rule 2 (statement -> WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement .)
 

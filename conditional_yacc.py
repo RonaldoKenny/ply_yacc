@@ -40,6 +40,11 @@ def p_assign(p):
 
 def p_compare(p):
     'statement : IF LPAREN statement MORETHAN statement RPAREN THEN'
+    begin_count = 0
+    end_count = 0
+    if(p[3] > p[5]):
+        pass
+
     # How to compare?
 # ends here
 
@@ -54,17 +59,14 @@ def p_expression_minus(p):
 
 def p_expression_term(p):
     'expression : term'
-    print('Term')
     p[0] = p[1]
 
 def p_expression_statement(p):
     'expression : statement'
-    print('Statement')
     p[0] = p[1]
 
 def p_term_times(p):
     'term : term TIMES factor'
-    print('Term TIMES Factor')
     p[0] = p[1] * p[3]
 
 def p_term_div(p):
@@ -81,7 +83,6 @@ def p_factor_num(p):
 
 def p_factor_var(p):
     'factor : STRING'
-    print(variables)
     p[0] = variables[p[1]]
 
 def p_factor_expr(p):
@@ -95,5 +96,5 @@ def p_error(p):
     print(p)
  
 # Build the parser
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True)
 parser.parse(conditional.data)

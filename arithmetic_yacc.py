@@ -19,11 +19,9 @@ def p_program_name(p):
 
 def p_begin(p):
     'statement : BEGIN statement'
-    print('This is the begin')
 
 def p_end(p):
     'statement : END FULLSTOP'
-    print('This is the end')
 
 def p_var_int(p):
     'statement : VAR STRING COLON INTEGER SEMICOLON statement'
@@ -36,13 +34,11 @@ def p_var_real(p):
 def p_assign(p):
     'statement : STRING ASSIGN expression SEMICOLON statement'
     variables[p[1]] = p[3]
-    print(variables)
 
 # ends here
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
-    print(p[0],p[1],p[2],p[3])
     p[0] = p[1] + p[3]
  
 def p_expression_minus(p):
@@ -51,17 +47,14 @@ def p_expression_minus(p):
 
 def p_expression_term(p):
     'expression : term'
-    print('Term')
     p[0] = p[1]
 
 def p_expression_statement(p):
     'expression : statement'
-    print('Statement')
     p[0] = p[1]
 
 def p_term_times(p):
     'term : term TIMES factor'
-    print('Term TIMES Factor')
     p[0] = p[1] * p[3]
 
 def p_term_div(p):
@@ -78,7 +71,6 @@ def p_factor_num(p):
 
 def p_factor_var(p):
     'factor : STRING'
-    print(variables)
     p[0] = variables[p[1]]
 
 def p_factor_expr(p):
