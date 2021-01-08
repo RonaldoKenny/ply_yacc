@@ -10,7 +10,7 @@ def p_program_name(p):
 
 def p_program(p):
     'program : PROGRAM STRING SEMICOLON'
-    print("Program Name: " + p[2])
+    print("Program: " + p[2])
 
 def p_writeln_expression(p):
     'statement : WRITELN LPAREN STRING RPAREN SEMICOLON'
