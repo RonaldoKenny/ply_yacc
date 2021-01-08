@@ -6,46 +6,67 @@ variables = {}
 
 # custom functions starts from here
 
-def p_writeln_expression(p):
-    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
+
+def p_start(p):
+    'start : program declare BEGIN statement END FULLSTOP'
+
+def p_program(p):
+    'program : PROGRAM STRING SEMICOLON'
+    print("Program: " + p[2])
+
+def p_declare(p):
+    '''declare  : VAR initialize declare
+                | initialize declare
+                | '''
+
+def p_initialize(p):
+    'initialize : STRING COLON dataypes SEMICOLON'
+    if p[4] == "integer":
+        variables[p[2]] = 0
+    elif p[4] == "real":
+        variables[p[2]] = 0.0
+    # print(p[2] + ' is now initialized')
+
+def p_datatype(p):
+    '''dataypes : INTEGER
+                | REAL'''
+    p[0] = p[1]
+
+def p_statements(p):
+    '''statement    : assign statement
+                    | print statement
+                    | print_var statement
+                    | condition statement
+                    | '''
+
+def p_print(p):
+    'print : WRITELN LPAREN STRING RPAREN SEMICOLON'
     print(p[3][1:-1])
 
-def p_writeln_params(p):
-    'statement : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement'
-    print(p[3][1:-1],variables[p[5]])
-
-def p_program_name(p):
-    'statement : PROGRAM STRING SEMICOLON statement'
-
-def p_begin(p):
-    'statement : BEGIN statement'
-    print('This is the begin')
-
-def p_end(p):
-    'statement : END FULLSTOP'
-    print('This is the end')
-
-def p_var_int(p):
-    'statement : VAR STRING COLON INTEGER SEMICOLON statement'
-    variables[p[2]] = 0
-
-def p_var_real(p):
-    'statement : VAR STRING COLON REAL SEMICOLON statement'
-    variables[p[2]] = 0
+def p_print_var(p):
+    'print_var : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON'
+    print(p[3][1:-1] + str(variables[p[5]]))
 
 def p_assign(p):
-    'statement : STRING ASSIGN expression SEMICOLON statement'
+    'assign : STRING ASSIGN expression SEMICOLON'
     variables[p[1]] = p[3]
-    print(variables)
+    p[0] = p[3]
+
+def p_condition(p):
+    'condition : IF LPAREN compare RPAREN THEN BEGIN statement END ELSE BEGIN statement END SEMICOLON'
+    if(p[3]):
+        p[0] = p[7]
+    else:
+        p[0] = p[11]
 
 def p_compare(p):
-    'statement : IF LPAREN statement MORETHAN statement RPAREN THEN'
-    begin_count = 0
-    end_count = 0
-    if(p[3] > p[5]):
-        pass
-
-    # How to compare?
+    '''compare : STRING MORETHAN STRING
+                | STRING NOTEQUAL STRING'''
+    if(p[2] == '>'):
+        p[0] = variables[p[1]] > variables[p[3]]
+        print(p[0])
+    elif(p[2] == '<>'):
+        p[0] = variables[p[1]] != variables[p[3]]
 # ends here
 
 def p_expression_plus(p):
@@ -98,3 +119,4 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(debug=True)
 parser.parse(conditional.data)
+print(variables)

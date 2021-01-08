@@ -25,6 +25,7 @@ t_ASSIGN = r':='
 t_COLON = r'\:'
 t_MORETHAN = r'>'
 t_LESSTHAN = r'<'
+t_NOTEQUAL = r'<>'
 
 reserved = {
     'program' : 'PROGRAM', 
@@ -37,7 +38,7 @@ reserved = {
     'else' : 'ELSE',
     'while' : 'WHILE',
     'integer' : 'INTEGER',
-    'real' : 'REAL'
+    'real' : 'REAL',
 }
 
 # A regular expression rule with some action code
@@ -83,6 +84,7 @@ tokens = [
     'LESSTHAN',
     'EXCLAMATION',
     'FULLSTOP',
+    'NOTEQUAL'
 ] + list(reserved.values())
 
 lexer = lex.lex()
