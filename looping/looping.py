@@ -7,7 +7,7 @@
 
 # GROUP ASSIGNMENT - LEXER ANALYSER
 
-from ply import lex, yacc
+from ply import lex
 
 # Regular expression rules for simple tokens
 t_PLUS    = r'\+'
@@ -20,7 +20,7 @@ t_SEMICOLON = r';'
 t_SINGLEQUOTE = r'\''
 t_COMMA = r','
 t_EXCLAMATION = r'!'
-t_FULLSTOP = r'\.'
+t_FULLSTOP = r'.$'
 t_ASSIGN = r':='
 t_COLON = r'\:'
 t_NOTEQUAL = r'<>'
@@ -40,7 +40,7 @@ reserved = {
     'WRITE' : 'WRITE',
     'FOR' : 'FOR',
     'TO' : 'TO',
-    'DO' : 'DO'
+    'DO' : 'DO',
 }
 
 # A regular expression rule with some action code
@@ -99,7 +99,7 @@ lexer = lex.lex()
 test = open("looping.txt", "r")
 data = test.read()
 
-data = data.lower()
+# data = data.lower()
 
 lexer.input(data)
 

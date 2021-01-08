@@ -12,6 +12,7 @@ def p_start(p):
 def p_program(p):
     'program : PROGRAM STRING SEMICOLON'
     print("Program: " + p[2])
+    print('Statement reached')
 
 def p_declare(p):
     '''declare  : VAR initialize declare
@@ -38,6 +39,7 @@ def p_statements(p):
                     | condition statement
                     | loop statement
                     | '''
+    print('Statement reached')
 
 def p_print(p):
     'print : WRITELN LPAREN STRING RPAREN SEMICOLON'
