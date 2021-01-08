@@ -3,9 +3,9 @@ import conditional
 
 tokens = conditional.tokens
 variables = {}
+check = {}
 
 # custom functions starts from here
-
 
 def p_start(p):
     'start : program declare BEGIN statement END FULLSTOP'
@@ -21,11 +21,11 @@ def p_declare(p):
 
 def p_initialize(p):
     'initialize : STRING COLON dataypes SEMICOLON'
-    if p[4] == "integer":
-        variables[p[2]] = 0
-    elif p[4] == "real":
-        variables[p[2]] = 0.0
-    # print(p[2] + ' is now initialized')
+    if p[3] == "integer":
+        variables[p[1]] = 0
+    elif p[3] == "real":
+        variables[p[1]] = 0.0
+    check[p[1]] = -1
 
 def p_datatype(p):
     '''dataypes : INTEGER
@@ -45,33 +45,43 @@ def p_print(p):
 
 def p_print_var(p):
     'print_var : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON'
-    print(p[3][1:-1] + str(variables[p[5]]))
+    if check[p[5]] != 0:
+        print(p[3][1:-1] + str(variables[p[5]]))
 
 def p_assign(p):
     'assign : STRING ASSIGN expression SEMICOLON'
-    variables[p[1]] = p[3]
-    p[0] = p[3]
-
-def p_condition(p):
-    'condition : IF LPAREN compare RPAREN THEN BEGIN statement END ELSE BEGIN statement END SEMICOLON'
-    if(p[3]):
-        p[0] = p[7]
+    if isinstance(p[3], int):
+        variables[p[1]] = p[3]
     else:
-        p[0] = p[11]
+        if check[p[3]] != 0:
+            variables[p[1]] = variables[p[3]]
+            check[p[1]] = 1
+        else: 
+            check[p[1]] = 0
+
+def p_if(p):
+    'condition : IF expression then else'
 
 def p_compare(p):
-    '''compare : STRING MORETHAN STRING
-                | STRING NOTEQUAL STRING'''
+    '''expression : STRING MORETHAN STRING'''
     if(p[2] == '>'):
-        p[0] = variables[p[1]] > variables[p[3]]
-        print(p[0])
-    elif(p[2] == '<>'):
-        p[0] = variables[p[1]] != variables[p[3]]
+        if variables[p[1]] > variables[p[3]]:
+            check[p[1]] = 1
+            check[p[3]] = 0
+        else:
+            check[p[1]] = 0
+            check[p[3]] = 1
+
+def p_then(p):
+    '''then : THEN BEGIN statement END'''
+
+def p_else(p):
+    '''else : ELSE BEGIN statement END SEMICOLON'''
+
 # ends here
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
-    print(p[0],p[1],p[2],p[3])
     p[0] = p[1] + p[3]
  
 def p_expression_minus(p):
@@ -104,12 +114,11 @@ def p_factor_num(p):
 
 def p_factor_var(p):
     'factor : STRING'
-    p[0] = variables[p[1]]
+    p[0] = p[1]
 
 def p_factor_expr(p):
     'factor : LPAREN expression RPAREN'
     p[0] = p[2]
-
 
 # Error rule for syntax errors
 def p_error(p):
@@ -119,4 +128,3 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc(debug=True)
 parser.parse(conditional.data)
-print(variables)
