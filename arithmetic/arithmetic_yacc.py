@@ -6,34 +6,41 @@ variables = {}
 
 # custom functions starts from here
 
-def p_writeln_expression(p):
-    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
-    print(p[3][1:-1])
+def p_expression_statement(p):
+    'expression : program'
+    p[0] = p[1]
+
+def p_program_name(p):
+    'program : PROGRAM STRING SEMICOLON declare BEGIN statement END FULLSTOP'
+    p[0] = p[1]
+    print('p[0] is ' + p[0])
+
+def p_var(p):
+    'declare : VAR STRING COLON dataypes SEMICOLON declare'
+    variables[p[2]] = 0
+    print(p[2] + ' is now declared')
+
+def p_var_end(p):
+    'declare : '
+
+def p_datatype(p):
+    '''dataypes : INTEGER
+                | REAL'''
+
+# def p_writeln_expression(p):
+#     'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
+#     print(p[3][1:-1])
 
 def p_writeln_params(p):
     'statement : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement'
-    print(p[3][1:-1],variables[p[5]])
-
-def p_program_name(p):
-    'statement : PROGRAM STRING SEMICOLON statement'
-
-def p_begin(p):
-    'statement : BEGIN statement'
-
-def p_end(p):
-    'statement : END FULLSTOP'
-
-def p_var_int(p):
-    'statement : VAR STRING COLON INTEGER SEMICOLON statement'
-    variables[p[2]] = 0
-
-def p_var_real(p):
-    'statement : VAR STRING COLON REAL SEMICOLON statement'
-    variables[p[2]] = 0
+    print(p[3][1:-1], variables[p[5]])
 
 def p_assign(p):
     'statement : STRING ASSIGN expression SEMICOLON statement'
     variables[p[1]] = p[3]
+
+def p_empty(p):
+    'statement : '
 
 # ends here
 
@@ -47,10 +54,6 @@ def p_expression_minus(p):
 
 def p_expression_term(p):
     'expression : term'
-    p[0] = p[1]
-
-def p_expression_statement(p):
-    'expression : statement'
     p[0] = p[1]
 
 def p_term_times(p):
@@ -85,3 +88,4 @@ def p_error(p):
 # Build the parser
 parser = yacc.yacc()
 parser.parse(arithmetic.data)
+print(variables)

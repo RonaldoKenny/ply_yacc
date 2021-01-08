@@ -7,7 +7,7 @@
 
 # GROUP ASSIGNMENT - LEXER ANALYSER
 
-from ply import lex, yacc
+from ply import lex
 
 # Regular expression rules for simple tokens
 t_PLUS    = r'\+'
@@ -23,14 +23,14 @@ t_EXCLAMATION = r'!'
 t_FULLSTOP = r'.$'
 
 reserved = {
-    'program' : 'PROGRAM', 
-    'begin' : 'BEGIN', 
-    'writeln' : 'WRITELN', 
-    'end' : 'END',
-    'if' : 'IF',
-    'then' : 'THEN',
-    'else' : 'ELSE',
-    'while' : 'WHILE',
+    'PROGRAM' : 'PROGRAM', 
+    'BEGIN' : 'BEGIN', 
+    'WRITELN' : 'WRITELN', 
+    'END' : 'END',
+    'IF' : 'IF',
+    'THEN' : 'THEN',
+    'ELSE' : 'ELSE',
+    'WHILE' : 'WHILE',
 }
 
 # A regular expression rule with some action code
@@ -82,11 +82,11 @@ lexer = lex.lex()
 test = open("statement.txt", "r")
 data = test.read()
 
-data = data.lower()
+# data = data.lower()
 
 lexer.input(data)
 
-# Tokenize
+# # Tokenize
 # while True:
 #     tok = lexer.token()
 #     if not tok: 
