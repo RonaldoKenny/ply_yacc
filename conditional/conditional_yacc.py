@@ -1,7 +1,7 @@
 from ply import yacc
-import conditional
+import conditional_lex
 
-tokens = conditional.tokens
+tokens = conditional_lex.tokens
 variables = {}
 check = {}
 
@@ -127,4 +127,4 @@ def p_error(p):
  
 # Build the parser
 parser = yacc.yacc(debug=True)
-parser.parse(conditional.data)
+parser.parse(conditional_lex.data)

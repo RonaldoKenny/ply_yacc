@@ -1,7 +1,7 @@
 from ply import yacc
-import looping
+import looping_lex
 
-tokens = looping.tokens
+tokens = looping_lex.tokens
 variables = {}
 
 # custom functions starts from here
@@ -125,4 +125,4 @@ def p_error(p):
  
 # Build the parser
 parser = yacc.yacc(debug=True)
-parser.parse(looping.data)
+parser.parse(looping_lex.data)

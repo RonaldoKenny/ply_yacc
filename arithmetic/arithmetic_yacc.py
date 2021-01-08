@@ -1,7 +1,7 @@
 from ply import yacc
-import arithmetic
+import arithmetic_lex
 
-tokens = arithmetic.tokens
+tokens = arithmetic_lex.tokens
 variables = {}
 
 # custom functions starts from here
@@ -82,4 +82,4 @@ def p_error(p):
  
 # Build the parser
 parser = yacc.yacc(start = 'start')
-parser.parse(arithmetic.data)
+parser.parse(arithmetic_lex.data)
