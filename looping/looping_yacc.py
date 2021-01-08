@@ -6,35 +6,74 @@ variables = {}
 
 # custom functions starts from here
 
-def p_writeln_expression(p):
-    'statement : WRITELN LPAREN STRING RPAREN SEMICOLON statement'
+def p_start(p):
+    'start : program declare BEGIN statement END FULLSTOP'
+
+def p_program(p):
+    'program : PROGRAM STRING SEMICOLON'
+    print("Program: " + p[2])
+
+def p_declare(p):
+    '''declare  : VAR initialize declare
+                | initialize declare
+                | '''
+
+def p_initialize(p):
+    'initialize : STRING COLON dataypes SEMICOLON'
+    if p[4] == "integer":
+        variables[p[2]] = 0
+    elif p[4] == "real":
+        variables[p[2]] = 0.0
+    # print(p[2] + ' is now initialized')
+
+def p_datatype(p):
+    '''dataypes : INTEGER
+                | REAL'''
+    p[0] = p[1]
+
+def p_statements(p):
+    '''statement    : assign statement
+                    | print statement
+                    | print_var statement
+                    | condition statement
+                    | loop statement
+                    | '''
+
+def p_print(p):
+    'print : WRITELN LPAREN STRING RPAREN SEMICOLON'
     print(p[3][1:-1])
 
-def p_writeln_params(p):
-    'statement : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON statement'
-    print(p[3][1:-1],variables[p[5]])
-
-def p_program_name(p):
-    'statement : PROGRAM STRING SEMICOLON statement'
-
-def p_begin(p):
-    'statement : BEGIN statement'
-
-def p_end(p):
-    'statement : END FULLSTOP'
-
-def p_var_int(p):
-    'statement : VAR STRING COLON INTEGER SEMICOLON statement'
-    variables[p[2]] = 0
-
-def p_var_real(p):
-    'statement : VAR STRING COLON REAL SEMICOLON statement'
-    variables[p[2]] = 0
+def p_print_var(p):
+    'print_var : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON'
+    print(p[3][1:-1] + str(variables[p[5]]))
 
 def p_assign(p):
-    'statement : STRING ASSIGN expression SEMICOLON statement'
+    'assign : STRING ASSIGN expression SEMICOLON'
     variables[p[1]] = p[3]
+    p[0] = p[3]
 
+def p_assign_no_semicolon(p):
+    'assign : STRING ASSIGN expression'
+    variables[p[1]] = p[3]
+    p[0] = p[3]
+    
+def p_loop(p):
+    'loop : FOR statement TO expression DO BEGIN condition END SEMICOLON'
+    print('Loop entered')
+
+def p_condition(p):
+    'condition : IF compare THEN BEGIN statement END SEMICOLON'
+    if(p[3]):
+        p[0] = p[7]
+
+def p_compare(p):
+    'compare : LPAREN STRING MOD NUMBER RPAREN NOTEQUAL STRING'
+    if(p[2] == '>'):
+        p[0] = variables[p[1]] > variables[p[3]]
+        print(p[0])
+    if(p[6] == '<>'):
+        print('Enter Mod')
+        p[0] = (variables[p[2]]%p[4]) != variables[p[3]]
 # ends here
 
 def p_expression_plus(p):
@@ -83,5 +122,5 @@ def p_error(p):
     print(p)
  
 # Build the parser
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True)
 parser.parse(looping.data)

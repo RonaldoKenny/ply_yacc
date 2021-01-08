@@ -23,29 +23,30 @@ t_EXCLAMATION = r'!'
 t_FULLSTOP = r'\.'
 t_ASSIGN = r':='
 t_COLON = r'\:'
-t_MORETHAN = r'\>'
-t_LESSTHAN = r'\<'
 t_NOTEQUAL = r'<>'
 
 reserved = {
-    'program' : 'PROGRAM', 
-    'begin' : 'BEGIN', 
-    'writeln' : 'WRITELN', 
-    'end' : 'END',
-    'var' : 'VAR',
-    'if' : 'IF',
-    'then' : 'THEN',
-    'else' : 'ELSE',
-    'while' : 'WHILE',
-    'integer' : 'INTEGER',
-    'real' : 'REAL',
-    'write' : "WRITE"
+    'PROGRAM' : 'PROGRAM', 
+    'BEGIN' : 'BEGIN', 
+    'WRITELN' : 'WRITELN', 
+    'END' : 'END',
+    'VAR' : 'VAR',
+    'IF' : 'IF',
+    'THEN' : 'THEN',
+    'ELSE' : 'ELSE',
+    'WHILE' : 'WHILE',
+    'INTEGER' : 'INTEGER',
+    'REAL' : 'REAL',
+    'WRITE' : 'WRITE',
+    'FOR' : 'FOR',
+    'TO' : 'TO',
+    'DO' : 'DO'
 }
 
 # A regular expression rule with some action code
 def t_NUMBER(t):
     r'\d+'
-    t.value = int(t.value)    
+    t.value = int(t.value)
     return t
 
 # Define a rule so we can track line numbers
@@ -65,6 +66,10 @@ def t_ID(t):
      r'[a-zA-Z_][a-zA-Z_0-9]*'
      t.type = reserved.get(t.value,'STRING')    # Check for reserved words
      return t
+
+def t_STRING(t):
+    r'\'[a-zA-Z_][a-zA-Z_0-9,! ]*\''
+    return t
 
 tokens = [
     'NUMBER',
