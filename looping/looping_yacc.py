@@ -12,7 +12,6 @@ def p_start(p):
 def p_program(p):
     'program : PROGRAM STRING SEMICOLON'
     print("Program: " + p[2])
-    print('Statement reached')
 
 def p_declare(p):
     '''declare  : VAR initialize declare
@@ -21,9 +20,9 @@ def p_declare(p):
 
 def p_initialize(p):
     'initialize : STRING COLON dataypes SEMICOLON'
-    if p[4] == "integer":
+    if p[3] == "integer":
         variables[p[2]] = 0
-    elif p[4] == "real":
+    elif p[3] == "real":
         variables[p[2]] = 0.0
     # print(p[2] + ' is now initialized')
 

@@ -3,7 +3,7 @@ VAR num1: integer;
 VAR num2: integer;
 VAR bignum: integer;
 BEGIN
-num1:=30;
+num1:=10;
 num2:=20;
 IF (num1>num2) THEN
 BEGIN

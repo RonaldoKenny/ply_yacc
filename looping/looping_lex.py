@@ -16,7 +16,7 @@ t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
-t_SEMICOLON = r';'
+t_SEMICOLON = r'\;'
 t_SINGLEQUOTE = r'\''
 t_COMMA = r','
 t_EXCLAMATION = r'!'
@@ -26,21 +26,21 @@ t_COLON = r'\:'
 t_NOTEQUAL = r'<>'
 
 reserved = {
-    'PROGRAM' : 'PROGRAM', 
-    'BEGIN' : 'BEGIN', 
-    'WRITELN' : 'WRITELN', 
-    'END' : 'END',
-    'VAR' : 'VAR',
-    'IF' : 'IF',
-    'THEN' : 'THEN',
-    'ELSE' : 'ELSE',
-    'WHILE' : 'WHILE',
-    'INTEGER' : 'INTEGER',
-    'REAL' : 'REAL',
-    'WRITE' : 'WRITE',
-    'FOR' : 'FOR',
-    'TO' : 'TO',
-    'DO' : 'DO',
+    'program' : 'PROGRAM', 
+    'begin' : 'BEGIN', 
+    'writeln' : 'WRITELN', 
+    'end' : 'END',
+    'var' : 'VAR',
+    'if' : 'IF',
+    'then' : 'THEN',
+    'else' : 'ELSE',
+    'while' : 'WHILE',
+    'integer' : 'INTEGER',
+    'real' : 'REAL',
+    'write' : 'WRITE',
+    'for' : 'FOR',
+    'to' : 'TO',
+    'do' : 'DO',
 }
 
 # A regular expression rule with some action code
@@ -99,7 +99,7 @@ lexer = lex.lex()
 test = open("looping.txt", "r")
 data = test.read()
 
-# data = data.lower()
+data = data.lower()
 
 lexer.input(data)
 
