@@ -38,11 +38,18 @@ def p_statements(p):
                     | condition statement
                     | loop statement
                     | '''
-    print('Statement reached')
-
+    if(len(p) > 1):
+        if(p[1] != None):
+            p[0] = p[1]
+            return p[0]
+        
 def p_print(p):
     'print : WRITELN LPAREN STRING RPAREN SEMICOLON'
     print(p[3][1:-1])
+
+def p_print_without_ln(p):
+    'print : WRITE LPAREN STRING COMMA STRING RPAREN SEMICOLON'
+    print((str(variables[p[3]]) + p[5][1:-1]))
 
 def p_print_var(p):
     'print_var : WRITELN LPAREN STRING COMMA STRING RPAREN SEMICOLON'
@@ -52,6 +59,7 @@ def p_assign(p):
     'assign : STRING ASSIGN expression SEMICOLON'
     variables[p[1]] = p[3]
     p[0] = p[3]
+    return p[0]
 
 def p_assign_no_semicolon(p):
     'assign : STRING ASSIGN expression'
@@ -60,21 +68,29 @@ def p_assign_no_semicolon(p):
     
 def p_loop(p):
     'loop : FOR statement TO expression DO BEGIN condition END SEMICOLON'
-    print('Loop entered')
+    while(p[2] < p[4]):
+        #p_condition(p)
+        p[2] = p[2] + 1
 
 def p_condition(p):
     'condition : IF compare THEN BEGIN statement END SEMICOLON'
-    if(p[3]):
-        p[0] = p[7]
+    p[0] = p[5]
+    if(p[2]):
+        p_statements(p)
+        
 
 def p_compare(p):
-    'compare : LPAREN STRING MOD NUMBER RPAREN NOTEQUAL STRING'
+    'compare : LPAREN STRING MOD NUMBER RPAREN NOTEQUAL NUMBER'
     if(p[2] == '>'):
         p[0] = variables[p[1]] > variables[p[3]]
-        print(p[0])
+        p[0] = True
+        return p[0]
     if(p[6] == '<>'):
-        print('Enter Mod')
-        p[0] = (variables[p[2]]%p[4]) != variables[p[3]]
+        # print('Enter Mod')
+        # print('the p[2] is', p[2], 'while the p4 is', p[4], 'when the p7 is', p[7])
+        p[0] = (variables[p[2]]%p[4]) != p[7]
+        p[0] = True
+        return p[0]
 # ends here
 
 def p_expression_plus(p):

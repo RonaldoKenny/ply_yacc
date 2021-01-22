@@ -41,6 +41,7 @@ reserved = {
     'for' : 'FOR',
     'to' : 'TO',
     'do' : 'DO',
+    'mod' : 'MOD',
 }
 
 # A regular expression rule with some action code
@@ -68,7 +69,7 @@ def t_ID(t):
      return t
 
 def t_STRING(t):
-    r'\'[a-zA-Z_][a-zA-Z_0-9,! ]*\''
+    r'\'[a-zA-Z_ ][a-zA-Z_0-9,!-: ]*\''
     return t
 
 tokens = [
