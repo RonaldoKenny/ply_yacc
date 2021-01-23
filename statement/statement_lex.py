@@ -10,16 +10,9 @@
 from ply import lex
 
 # Regular expression rules for simple tokens
-t_PLUS    = r'\+'
-t_MINUS   = r'-'
-t_TIMES   = r'\*'
-t_DIVIDE  = r'/'
 t_LPAREN  = r'\('
 t_RPAREN  = r'\)'
 t_SEMICOLON = r'\;'
-t_SINGLEQUOTE = r'\''
-t_COMMA = r','
-t_EXCLAMATION = r'!'
 t_FULLSTOP = r'.$'
 
 reserved = {
@@ -27,10 +20,6 @@ reserved = {
     'BEGIN' : 'BEGIN', 
     'WRITELN' : 'WRITELN', 
     'END' : 'END',
-    'IF' : 'IF',
-    'THEN' : 'THEN',
-    'ELSE' : 'ELSE',
-    'WHILE' : 'WHILE',
 }
 
 # A regular expression rule with some action code
@@ -62,18 +51,10 @@ def t_STRING(t):
     return t
 
 tokens = [
-    'NUMBER',
-    'PLUS',
-    'MINUS',
-    'TIMES',
-    'DIVIDE',
     'LPAREN',
     'RPAREN',
     'STRING',
     'SEMICOLON',
-    'SINGLEQUOTE',
-    'COMMA',
-    'EXCLAMATION',
     'FULLSTOP',
 ] + list(reserved.values())
 

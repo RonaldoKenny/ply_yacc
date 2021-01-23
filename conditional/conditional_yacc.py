@@ -71,6 +71,7 @@ def p_compare(p):
         else:
             check[p[1]] = 0
             check[p[3]] = 1
+    
 
 def p_then(p):
     '''then : THEN BEGIN statement END'''
@@ -126,5 +127,5 @@ def p_error(p):
     print(p)
  
 # Build the parser
-parser = yacc.yacc(debug=True)
+parser = yacc.yacc()
 parser.parse(conditional_lex.data)

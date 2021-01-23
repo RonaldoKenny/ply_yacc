@@ -81,5 +81,5 @@ def p_error(p):
     print(p)
  
 # Build the parser
-parser = yacc.yacc(start = 'start')
+parser = yacc.yacc()
 parser.parse(arithmetic_lex.data)
